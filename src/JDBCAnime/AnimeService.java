@@ -16,7 +16,7 @@ public class AnimeService {
             stmt.setString(2, descripcion);
             stmt.setDate(3, Date.valueOf(data));
             stmt.setInt(4, Integer.parseInt(puntuacion));
-            stmt.executeUpdate(sql);
+            stmt.execute();
             System.out.println("Datos insertados");
 
         } catch (SQLException e) {
@@ -37,7 +37,7 @@ public class AnimeService {
             throw new RuntimeException(e);
         }
     }
-    static void actualizar(String nome,String descripcion, String data, String puntuacion) {
+    static void actualizar(String descripcion,String data, String puntuacion, String nome) {
         String sql = "UPDATE anime SET descripcion = ?, data = ?, puntuacion = ? WHERE nome = ?";
         try (Connection conexion = Conexion.conexion();
              PreparedStatement stmt = conexion.prepareStatement(sql)) {
@@ -62,8 +62,8 @@ public class AnimeService {
             ResultSet filas = stmt.executeQuery();
             System.out.println("Datos leídos " + filas);
             while(filas.next()){
-                String nome = filas.getNString(1);
-                String descripcion = filas.getNString(2);
+                String nome = filas.getString(1);
+                String descripcion = filas.getString(2);
                 Date data = filas.getDate(3);
                 int puntuacion = filas.getInt(4);
                 System.out.println(nome + " " + descripcion + " " + data + " " + puntuacion);
