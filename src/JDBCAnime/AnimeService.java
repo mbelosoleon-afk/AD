@@ -73,5 +73,26 @@ public class AnimeService {
             throw new RuntimeException(e);
         }
     }
+    static void leerId(String nome){
+        String sql = "SELECT * FROM anime WHERE nome = ?";
+        try (Connection conexion = Conexion.conexion();
+        PreparedStatement stmt = conexion.prepareStatement(sql)){
 
+            stmt.setString(1, nome);
+            ResultSet fila = stmt.executeQuery();
+
+            if(fila.next()){
+                String nombre = fila.getString(1);
+                String descripcion = fila.getString(2);
+                Date data = fila.getDate(3);
+                int puntuacion = fila.getInt(4);
+
+                System.out.println(" " + nombre + " " + descripcion + " " + data + " " + puntuacion);
+            }else {
+                System.out.println("No se encontró la búsqueda");
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
